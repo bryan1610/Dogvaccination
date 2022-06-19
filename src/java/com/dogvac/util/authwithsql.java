@@ -1,5 +1,10 @@
-public class authwithsql; 
 
+
+
+
+public class authwithsql
+{
+/*
 String databaseUsername = "username";
     String databasePassword = "password";
 
@@ -25,4 +30,5 @@ String databaseUsername = "username";
         System.out.println("Successful Login!\n----");
     } else {
         System.out.println("Incorrect Password\n----");
-    }
+    }*/
+}

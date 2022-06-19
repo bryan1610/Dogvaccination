@@ -7,6 +7,7 @@ package com.dogvac.model;
 
 import com.dogvac.controler.GeneralDao;
 import com.dogvac.intities.Actors;
+import com.dogvac.intities.Dog;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -23,9 +24,15 @@ import javax.faces.view.facelets.FaceletContext;
 @ManagedBean(name = "Main")
 public class MainClass {
 private Actors mn  = new Actors();
+private Dog dog = new Dog();
+private GeneralDao<Dog> dogDao = new GeneralDao<>(Dog.class);
 private GeneralDao<Actors> mnDao = new GeneralDao<>(Actors.class);
 private auth au = new auth();
+ private String HeaderNames;
 
+    public String getHeaderNames() {
+        return HeaderNames;
+    }
     public Actors getMn() {
         return mn;
     }
@@ -38,8 +45,6 @@ private auth au = new auth();
         this.mn = mn;
     }
     
-    
-
     public auth getAu() {
         return au;
     }
@@ -59,23 +64,38 @@ private auth au = new auth();
     
    return "signup";
    }
-    
 
+   
+   // get frmo Dag Class
+    public Dog getDog() {
+        return dog;
+    }
+
+    public List<Dog> getDogDao() {
+        return dogDao.listAll();
+    }
+    
+   
+  
     
    public String ULogin(){
         try {
            String enterusernameMail=au.getUserMail();
-      
-        
        Actors ab = mnDao.findBySTRING_PK(enterusernameMail);
+       String actorUsername = ab.getUserEmail();
        
-        String actorUsername = ab.getUserEmail();
-    
-      
         if ( enterusernameMail.equals(actorUsername)) {
-             return "Home"; 
+        
+            FacesMessage message =new  FacesMessage("Successful Login");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            
+          HeaderNames = actorUsername;  
+            
+         return "Home"; 
         } else {
-            return "Wrong passowrd or Username ";
+            FacesMessage msg =new  FacesMessage(" Wrong Username or Password");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return "signup";
         }
        } catch (Exception e) {
             FacesMessage message =new  FacesMessage("Create An account");
